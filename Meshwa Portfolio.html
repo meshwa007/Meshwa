@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Meshwa J Prajapati</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  background: linear-gradient(135deg, #ffe4ec, #fff0f5);
+  color: #333;
+  text-align: center;
+}
+
+/* HEADER */
+header {
+  padding: 60px 20px;
+}
+
+header h1 {
+  font-size: 42px;
+  color: #d63384;
+}
+
+header p {
+  color: #777;
+}
+
+/* SECTIONS */
+section {
+  margin: 50px 20px;
+}
+
+/* CARD DESIGN */
+.card {
+  background: white;
+  margin: 20px auto;
+  padding: 25px;
+  width: 280px;
+  border-radius: 20px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+  transition: 0.3s;
+}
+
+.card:hover {
+  transform: translateY(-8px);
+}
+
+/* BUTTON */
+button, a.button-link {
+  display: inline-block;
+  padding: 12px 25px;
+  border: none;
+  background: #ff4d6d;
+  color: white;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 15px;
+  text-decoration: none;
+  margin-top: 10px;
+}
+
+button:hover, a.button-link:hover {
+  background: #ff1e4d;
+}
+
+/* CONTACT BOX */
+.contact-box {
+  background: white;
+  padding: 20px;
+  border-radius: 15px;
+  width: 300px;
+  margin: auto;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+}
+
+.contact-box p {
+  margin: 8px 0;
+}
+
+/* FOOTER */
+footer {
+  margin-top: 50px;
+  padding: 20px;
+  font-size: 14px;
+  color: #999;
+}
+</style>
+
+</head>
+
+<body>
+
+<header>
+  <h1>Meshwa J Prajapati 🌸</h1>
+  <p>CS-IT Student | Future Developer</p>
+</header>
+
+<section>
+  <h2>About Me</h2>
+  <p>I am a BSc CS-IT student passionate about web development and creating clean and aesthetic digital experiences.</p>
+</section>
+
+<section>
+  <h2>My Work</h2>
+
+  <div class="card">
+    <h3>To-Do App</h3>
+    <p>My working project</p>
+    <a href="https://advocatejbprajapati.netlify.app/" target="_blank" class="button-link">View Project</a>
+  </div>
+
+</section>
+
+<section>
+  <h2>Contact</h2>
+
+  <div class="contact-box">
+    <p>📞 9081816196</p>
+    <p>📧 meshwa8@gmail.com</p>
+    <button onclick="sayHi()">Say Hi 👋</button>
+  </div>
+
+</section>
+
+<footer>
+  Made with 💖 by Meshwa J Prajapati
+</footer>
+
+<script>
+function sayHi() {
+  alert("Thanks for visiting my portfolio 💕");
+}
+</script>
+
+</body>
+</html>
