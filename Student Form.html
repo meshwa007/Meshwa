@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Aesthetic Student Registration</title>
+    <style>
+        body{
+            margin:0;
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg,#667eea,#764ba2);
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            min-height:100vh;
+        }
+
+        .container{
+            width:500px;
+            background:rgba(255,255,255,0.15);
+            backdrop-filter:blur(12px);
+            padding:25px;
+            border-radius:20px;
+            box-shadow:0 8px 30px rgba(0,0,0,0.3);
+            color:white;
+            animation:fadeIn 1s ease-in-out;
+        }
+
+        h2{
+            text-align:center;
+            margin-bottom:15px;
+        }
+
+        input{
+            width:100%;
+            padding:10px;
+            margin:8px 0;
+            border:none;
+            border-radius:10px;
+            outline:none;
+        }
+
+        input.error{
+            border:2px solid red;
+            animation:shake 0.3s;
+        }
+
+        button{
+            width:100%;
+            padding:10px;
+            border:none;
+            border-radius:10px;
+            background:#00f2fe;
+            color:black;
+            font-weight:bold;
+            cursor:pointer;
+            transition:0.3s;
+        }
+
+        button:hover{
+            background:#4facfe;
+        }
+
+        table{
+            width:100%;
+            margin-top:15px;
+            border-collapse:collapse;
+            background:white;
+            color:black;
+            border-radius:10px;
+            overflow:hidden;
+        }
+
+        th,td{
+            padding:8px;
+            text-align:center;
+        }
+
+        th{
+            background:#4facfe;
+            color:white;
+        }
+
+        .gradeA{color:green;font-weight:bold;}
+        .gradeB{color:blue;font-weight:bold;}
+        .gradeC{color:orange;font-weight:bold;}
+        .gradeF{color:red;font-weight:bold;}
+
+        .stats{
+            margin-top:10px;
+            font-size:14px;
+        }
+
+        @keyframes shake{
+            0%{transform:translateX(0);}
+            25%{transform:translateX(-5px);}
+            50%{transform:translateX(5px);}
+            75%{transform:translateX(-5px);}
+            100%{transform:translateX(0);}
+        }
+
+        @keyframes fadeIn{
+            from{opacity:0;transform:scale(0.9);}
+            to{opacity:1;transform:scale(1);}
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>✨ Student Registration</h2>
+
+    <input type="text" id="name" placeholder="Student Name">
+    <input type="number" id="age" placeholder="Age">
+    <input type="number" id="marks" placeholder="Marks (0-100)">
+    <button onclick="registerStudent()">Register Student</button>
+
+    <div id="message"></div>
+
+    <div class="stats">
+        Total Students: <span id="total">0</span> |
+        Average Marks: <span id="average">0</span>
+    </div>
+
+    <table id="studentTable">
+        <tr>
+            <th>Name</th>
+            <th>Age</th>
+            <th>Marks</th>
+            <th>Grade</th>
+            <th>Action</th>
+        </tr>
+    </table>
+</div>
+
+<script>
+
+let students = JSON.parse(localStorage.getItem("students")) || [];
+
+function calculateGrade(marks){
+    if(marks>=90) return "A";
+    else if(marks>=75) return "B";
+    else if(marks>=50) return "C";
+    else return "F";
+}
+
+function registerStudent(){
+    try{
+        let name = document.getElementById("name");
+        let age = document.getElementById("age");
+        let marks = document.getElementById("marks");
+        let message = document.getElementById("message");
+
+        name.classList.remove("error");
+        age.classList.remove("error");
+        marks.classList.remove("error");
+
+        if(name.value===""){
+            name.classList.add("error");
+            throw "Name required!";
+        }
+
+        if(age.value<=0){
+            age.classList.add("error");
+            throw "Invalid age!";
+        }
+
+        if(marks.value<0 || marks.value>100){
+            marks.classList.add("error");
+            throw "Marks must be 0-100!";
+        }
+
+        let student={
+            name:name.value,
+            age:age.value,
+            marks:parseInt(marks.value),
+            grade:calculateGrade(parseInt(marks.value))
+        };
+
+        students.push(student);
+        localStorage.setItem("students",JSON.stringify(students));
+
+        displayStudents();
+
+        message.innerHTML="<p style='color:lightgreen'>Registered Successfully 🎉</p>";
+
+        name.value=""; age.value=""; marks.value="";
+    }
+    catch(error){
+        document.getElementById("message").innerHTML=
+        "<p style='color:red'>"+error+"</p>";
+    }
+}
+
+function displayStudents(){
+    let table=document.getElementById("studentTable");
+
+    table.innerHTML=`
+    <tr>
+        <th>Name</th>
+        <th>Age</th>
+        <th>Marks</th>
+        <th>Grade</th>
+        <th>Action</th>
+    </tr>`;
+
+    let totalMarks=0;
+
+    for(let i=0;i<students.length;i++){
+        totalMarks+=students[i].marks;
+
+        let gradeClass="";
+        if(students[i].grade==="A") gradeClass="gradeA";
+        else if(students[i].grade==="B") gradeClass="gradeB";
+        else if(students[i].grade==="C") gradeClass="gradeC";
+        else gradeClass="gradeF";
+
+        table.innerHTML+=`
+        <tr>
+            <td>${students[i].name}</td>
+            <td>${students[i].age}</td>
+            <td>${students[i].marks}</td>
+            <td class="${gradeClass}">${students[i].grade}</td>
+            <td><button onclick="deleteStudent(${i})">❌</button></td>
+        </tr>`;
+    }
+
+    document.getElementById("total").innerText=students.length;
+    document.getElementById("average").innerText=
+    students.length ? (totalMarks/students.length).toFixed(2) : 0;
+}
+
+function deleteStudent(index){
+    students.splice(index,1);
+    localStorage.setItem("students",JSON.stringify(students));
+    displayStudents();
+}
+
+displayStudents();
+
+</script>
+
+</body>
+</html>
